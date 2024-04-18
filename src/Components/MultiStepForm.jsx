@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 
 function MultiStepForm() {
-    const [step, setStep] = useState()
+    const [step, setStep] = useState(1)
     const [formData, setFormData] = useState({
         firstName: "",
         email: ""
@@ -10,13 +10,13 @@ function MultiStepForm() {
     const [errors, setErrors] = useState({})
 
     const handleChange=(e)=>{
-        const {name, email}=e.target;
+        const {name, value}=e.target;
         setFormData({...formData,[name]:value})
         if(name==='email'){
             const isValid=value.includes('@')
             setErrors({...errors,[name]:isValid?'':'error'})
         }else {
-            setErrors({...errors,[name]:isValid?'':'required'})
+            setErrors({...errors,[name]:value?'':'required'})
         }
 
     }
@@ -47,9 +47,9 @@ function MultiStepForm() {
                 return (
                     <div>
                         <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
-                         <input type="text" name="lastName" value={formData.email} onChange={handleChange} />
+                         <input type="text" name="email" value={formData.email} onChange={handleChange} />
                         <button onClick={()=>setStep(step+1)}> Next</button>
-                        {errors.firstName|| errors.email?<><span> {errors.email}</span><span> {errors.firstName}</span></>: <button onClick={()=>setStep(step-1)}> Next</button> }
+                        {errors.firstName|| errors.email?<><span> {errors.email}</span><span> {errors.firstName}</span></>: <button onClick={()=>setStep(step-1)}> prev</button> }
                     </div>
                 )
         }
